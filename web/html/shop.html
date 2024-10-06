@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Nexus Shop - AI and Tools">
+    <title>AI Nexus Shop</title>
+
+    <!-- TailwindCSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        .hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-effect:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-link.active {
+            background-color: #4F46E5;
+            color: white;
+        }
+
+        .sidebar-link:hover {
+            background-color: #4338ca;
+            color: white;
+        }
+
+        footer {
+            background-color: #1F2937;
+            color: #9CA3AF;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dark-mode {
+            background-color: #1a202c;
+            color: #f7fafc;
+        }
+
+        .light-mode {
+            background-color: #f7fafc;
+            color: #1a202c;
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: #2d3748;
+            width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-menu a {
+            padding: 10px 15px;
+            display: block;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-menu a:hover {
+            background-color: #4F46E5;
+        }
+
+        .profile-menu.active {
+            display: block;
+        }
+
+        /* Shop specific styles */
+        .product-card {
+            background-color: #2d3748;
+            border-radius: 8px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            font-size: 1.25rem;
+            margin-top: 10px;
+        }
+
+        .product-card p {
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .product-card .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #38b2ac;
+        }
+
+        .product-card .btn {
+            background-color: #4F46E5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-card .btn:hover {
+            background-color: #4338ca;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            color: #f7fafc;
+        }
+
+        .section-divider {
+            height: 2px;
+            background-color: #4F46E5;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-200 antialiased">
+    <div class="flex h-screen overflow-hidden dark-mode" id="shop-body">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-gray-800 w-56 space-y-6 py-7 px-4 fixed inset-y-0 left-0 z-20 overflow-y-auto transition-all duration-300 ease-in-out">
+            <div class="text-white text-2xl font-bold flex items-center">
+                <i class="fas fa-robot w-8 h-8 mr-3"></i>
+                AI<span class="text-indigo-500">Nexus</span> Pro
+            </div>
+            <nav class="mt-10">
+                <ul>
+                    <li><a href="#" id="dashboard-link" class="sidebar-link flex items-center px-4 py-2 text-gray-400 hover:bg-indigo-600 rounded-md transition duration-150 ease-in-out"><i class="fas fa-tachometer-alt mr-3"></i> Dashboard</a></li>
+                    <li><a href="#" id="shop-link" class="sidebar-link active flex items-center px-4 py-2 text-gray-400 hover:bg-indigo-600 rounded-md transition duration-150 ease-in-out"><i class="fas fa-store mr-3"></i> Shop</a></li>
+                    <li><a href="#" id="tools-link" class="sidebar-link flex items-center px-4 py-2 text-gray-400 hover:bg-indigo-600 rounded-md transition duration-150 ease-in-out"><i class="fas fa-tools mr-3"></i> Tools & AI</a></li>
+                    <li><a href="#" id="support-link" class="sidebar-link flex items-center px-4 py-2 text-gray-400 hover:bg-indigo-600 rounded-md transition duration-150 ease-in-out"><i class="fas fa-life-ring mr-3"></i> Support</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 ml-56 overflow-x-hidden overflow-y-auto transition-all duration-300 ease-in-out">
+            <!-- Header -->
+            <header class="sticky top-0 bg-gray-800 py-4 px-6 shadow-md z-10">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <button id="sidebar-toggle" class="mr-4 text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-3xl font-semibold text-gray-200">AI Nexus Shop</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <input type="search" placeholder="Search products..." class="rounded-lg py-2 pl-10 pr-4 bg-gray-700 text-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <span class="absolute left-3 top-2.5 text-gray-400">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <button id="theme-toggle" class="text-gray-300 hover:text-white">
+                            <i class="fas fa-sun"></i>
+                        </button>
+                        <div class="relative">
+                            <button id="user-menu-button" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <img class="h-8 w-8 rounded-full" src="https://via.placeholder.com/40" alt="User avatar">
+                            </button>
+                            <div id="user-menu" class="profile-menu hidden">
+                                <a href="#">Profile</a>
+                                <a href="#">Settings</a>
+                                <a href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Shop Section -->
+            <section id="shop-section" class="p-6">
+                <!-- AI Products Section -->
+                <h2 class="section-title">AI Products</h2>
+                <div class="section-divider"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+                    <!-- Product Card -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200x200" alt="AI Product 1">
+                        <h3>AI Model X100</h3>
+                        <p class="price">$299.99</p>
+                        <a href="#" class="btn">Add to Cart</a>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200x200" alt="AI Product 2">
+                        <h3>AI Tool Y200</h3>
+                        <p class="price">$199.99</p>
+                        <a href="#" class="btn">Add to Cart</a>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200x200" alt="AI Product 3">
+                        <h3>AI Subscription Plan</h3>
+                        <p class="price">$29.99/month</p>
+                        <a href="#" class="btn">Subscribe</a>
+                    </div>
+                </div>
+
+                <!-- Tools Section -->
+                <h2 class="section-title">Tools</h2>
+                <div class="section-divider"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Tool Card -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200x200" alt="Tool 1">
+                        <h3>Tool A500</h3>
+                        <p class="price">$59.99</p>
+                        <a href="#" class="btn">Add to Cart</a>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200x200" alt="Tool 2">
+                        <h3>Tool B700</h3>
+                        <p class="price">$99.99</p>
+                        <a href="#" class="btn">Add to Cart</a>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200x200" alt="Tool 3">
+                        <h3>Tool C900</h3>
+                        <p class="price">$149.99</p>
+                        <a href="#" class="btn">Add to Cart</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="bg-gray-800 p-4 text-center text-gray-400">
+                &copy; 2024 AI Nexus. All rights reserved.
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                document.querySelector('.sidebar-link.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Profile Menu Toggle
+        document.getElementById('user-menu-button').addEventListener('mouseenter', function () {
+            document.getElementById('user-menu').classList.add('active');
+        });
+        document.getElementById('user-menu').addEventListener('mouseleave', function () {
+            document.getElementById('user-menu').classList.remove('active');
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const body = document.getElementById('shop-body');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+    </script>
+</body>
+</html>
