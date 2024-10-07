@@ -30,17 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
         hideErrorMessage();
 
         try {
+            const csrfToken = getCSRFTokenFromCookies();
+            if (!csrfToken) {
+                return showErrorMessage('CSRF token not found. Please refresh the page and try again.');
+            }
+
             const response = await fetch('/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // Include CSRF token in headers
                 },
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
                 alert('Signup successful! Please check your email to verify your account.');
-                window.location.href = '/login'; // Redirect to login page after successful signup
+                window.location.href = '/auth/login'; // Redirect to login page after successful signup
             } else {
                 const errorData = await response.json();
                 showErrorMessage(errorData.message || 'Signup failed. Please try again.');
@@ -53,3 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     signupForm.addEventListener('submit', handleFormSubmit);
 });
+
+// Helper function to get the CSRF token from cookies
+function getCSRFTokenFromCookies() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('XSRF-TOKEN='))
+        ?.split('=')[1]; // Safe navigation in case the token doesn't exist
+}
